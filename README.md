@@ -14,7 +14,7 @@ npm run migrations
 ## Download all the dependencies
 
 ```
-node i --save
+npm i --save
 ```
 
 ## Run the API
