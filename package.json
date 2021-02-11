@@ -1,0 +1,20 @@
+{
+  "name": "dealer-network",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "npm run test",
+		"migrations": "node Migrations/migration.js up"
+  },
+  "author": "Unborn20",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "mysql-migrations": "^1.0.7"
+  }
+}
