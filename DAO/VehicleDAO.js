@@ -38,12 +38,7 @@ class VehicleDAO{
 	}
 
 	static async showCheaperVehicle(){
-		const sql = `
-								SELECT brand, price, dealerName AS dealer
-								FROM vehicles 
-								INNER JOIN dealers ON vehicles.dealerCode = dealers.nit
-								ORDER BY price ASC LIMIT 1
-								`;
+		const sql = `SELECT brand, price, dealerName AS dealer FROM vehicles INNER JOIN dealers ON vehicles.dealerCode = dealers.nit ORDER BY price ASC LIMIT 1`;
 		return new Promise((resolve, reject) => {
 			con.query(sql, (err, result) => {
 				if (err) reject(err);
