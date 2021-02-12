@@ -8,17 +8,17 @@ It is a project to manage a several Dealer Networks
 2. Run  migrations.
 
 ```
-	npm run migrations	
+npm run migrations	
 ```
 
 ## Download all the dependencies
 
 ```
-	node i --save
+npm i --save
 ```
 
 ## Run the API
 
 ```
-	npm start
+npm start
 ```

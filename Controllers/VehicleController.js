@@ -15,8 +15,8 @@ class VehicleController{
 		let vehicleDAO = new VehicleDAO(vehicleDTO);
 		return await vehicleDAO.registerNewVehicle();
 	}
-
-  static async showMostRecentVehicle(){
+	
+	static async showMostRecentVehicle(){
 		let mostRecentVehicles = await VehicleDAO.showMostRecentVehicles();
 		return mostRecentVehicles;
 	} 

@@ -9,9 +9,9 @@ const vehicleRouter = require('./Routes/VehicleRoute');
 const clientRouter = require('./Routes/ClientRoute');
 
 /**
- * ENVIROMENT VARIABLES
+ * CONFIG DOTENV	
  */
-const port = process.env.PORT || 3000;
+require('dotenv').config();
 
 /**
  * Middlewares
@@ -29,4 +29,5 @@ app.use('/client', clientRouter);
 /**
  * Server
  */
+const port = process.env.PORT;
 app.listen(port, () => console.log(`Running in port ${port}`));
