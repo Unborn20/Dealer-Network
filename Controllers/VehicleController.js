@@ -6,6 +6,7 @@ class VehicleController{
 
 	constructor(){}
 
+	/** Return a message */
 	async registerNewVehicle(vehicle){
 		let VehicleDTO = new VehicleDTO();
 		vehicleDTO.brand = vehicle.brand;
