@@ -1,5 +1,5 @@
 'use strict';
-const VehicleDTO = require('../DTO/VehicleDTO');
+const Vehicle = require('../Models/Vehicle');
 const VehicleDAO = require('../DAO/VehicleDAO');
 
 class VehicleController{
@@ -7,13 +7,13 @@ class VehicleController{
 	constructor(){}
 
 	async registerNewVehicle(vehicle){
-		let VehicleDTO = new VehicleDTO();
-		vehicleDTO.brand = vehicle.brand;
-		VehicleDTO.model = Number(vehicle.model);
-		vehicleDTO.price = Number(vehicle.price).toFixed(2);
-		ivehicleDTO.dealerCode = Number(vehicle.dealerCode).toFixed(0);
-		let vehicleDAO = new VehicleDAO(vehicleDTO);
-		return await vehicleDAO.registerNewVehicle();
+		let vehicleModel = new Vehicle();
+		vehicleModel.brand = vehicle.brand;
+		vehicleModel.model = Number(vehicle.model);
+		vehicleModel.price = Number(vehicle.price).toFixed(2);
+		vehicleModel.dealerCode = Number(vehicle.dealerCode).toFixed(0);
+		let vehicleDAO = new VehicleDAO();
+		return await vehicleDAO.registerNewVehicle(vehicleModel);
 	}
   
 	static async showMostRecentVehicle(){

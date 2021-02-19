@@ -1,4 +1,5 @@
-const DealerDTO = require('../DTO/DealerDTO');
+'use strict';
+const Dealer = require('../Models/Dealer');
 const DealerDAO = require('../DAO/DealerDAO');
 
 class DealerController{
@@ -11,12 +12,12 @@ class DealerController{
 	} 
 
 	async registerNewDealer(dealer){
-		let newDealer = new DealerDTO();
-		newDealer.dealerName = dealer.name;
-		newDealer.phone = dealer.phone;
-		newDealer.address = dealer.address;
-		let dealerDAO = new DealerDAO(newDealer);
-		return await dealerDAO.registerNewDealer();		
+		let dealerModel = new Dealer();
+		dealerModel.dealerName = dealer.name;
+		dealerModel.phone = dealer.phone;
+		dealerModel.address = dealer.address;
+		let dealerDAO = new DealerDAO();		
+		return await dealerDAO.registerNewDealer(dealerModel);		
 	}
 
 }

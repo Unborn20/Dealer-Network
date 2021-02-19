@@ -1,19 +1,18 @@
-const con = require('../Connection_DB/connection');
+'use strict';
+const pool = require('../Connection_DB/connection');
 
 class SaleDAO{
 	
-	constructor(newSale){
-		this.newSale = newSale;
-	}
+	constructor(){}
 
-	async saleVehicle(){
-		const sql = `INSERT INTO sales SET ?`;
-		return new Promise((resolve, reject) => {
-			con.query(sql, this.newSale, (err) => {
-				if (err) reject(err);
-				resolve({msg: 'Success: Sale registred successfully'});
-			});
-		});
+	async saleVehicle(sale){
+		try{
+			const sql = `INSERT INTO sales SET ?`;
+			await pool.query(sql, sale);
+			return {msg: 'Success: Sale complete succesfully'};
+		}catch(err){
+			throw err;
+		}
 	}
 
 }

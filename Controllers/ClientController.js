@@ -1,7 +1,8 @@
+'use strict';
 /**
  * DEPENDENCIES
  */
-const ClientDTO = require('../DTO/ClientDTO');
+const Client = require('../Models/Client');
 const ClientDAO = require('../DAO/ClientDAO');
 const SaleDAO = require('../DAO/SaleDAO');
 
@@ -15,17 +16,17 @@ class ClientController{
 	}
 
 	async registerInfoClient(client){
-		let newClient = new ClientDTO();
-		newClient.name = client.name;
-		newClient.phone = client.phone;
-		newClient.address = client.address;
-		let clientDAO = new ClientDAO(newClient);
-		return await clientDAO.registerNewClient();
+		let clientModel = new Client();
+		clientModel.name = client.name;
+		clientModel.phone = client.phone;
+		clientModel.address = client.address;
+		let clientDAO = new ClientDAO();
+		return await clientDAO.registerNewClient(clientModel);
 	}
 
-	async saleVehicle(newSale){
-		let saleDAO = new SaleDAO(newSale);
-		return await saleDAO.saleVehicle();
+	async saleVehicle(sale){
+		let saleDAO = new SaleDAO();
+		return await saleDAO.saleVehicle(sale);
 	}
 
 }

@@ -1,9 +1,15 @@
 # Dealer-Network
-It is a project to manage a several Dealer Networks
+It is a project to manage a Dealer Network
+
+## Download all the dependencies
+
+```
+npm i
+```
 
 ## Export DB in your local enviroment
 
-1. Create a new database in MySQL Workbench with **dealer_network_DB** name or whatever name 
+1. Create a new database in your MariaDB client with **dealer_network_DB** name or whatever you want, 
    just change the name in the enviroment file.
 2. Run  migrations.
 
@@ -11,10 +17,9 @@ It is a project to manage a several Dealer Networks
 npm run migrations	
 ```
 
-## Download all the dependencies
-
+If you want down the migrations you can use:
 ```
-npm i --save
+npm run down-migrations
 ```
 
 ## Run the API

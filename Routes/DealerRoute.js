@@ -1,30 +1,39 @@
+'use strict';
 /**
  * DEPENDENCIES
  */
 const express = require('express');
 const DealerController = require('../Controllers/DealerController');
+const {verifyToken, verifyAdminRole} = require('../Middlewares/auth');
 const dealerRouter = express.Router();
 
 /**
- *	Route: '/'
- *
- *	Response: List all Dealers Centers
+ *	ROUTE: 'dealer/'
+ *	RESPONSE: List all Dealers Centers
  */
-dealerRouter.get('/', async (req, res) => {
-	let dealers = await DealerController.showDealers();
-	res.status(200).send(dealers);
+dealerRouter.get('/', verifyToken, verifyAdminRole, async (req, res) => {
+	try{
+		const dealers = await DealerController.showDealers();
+		res.status(200).send(dealers);
+	}catch(err){
+		res.status(500).json({msg: 'Server error'});
+	}	
 });
 
 /**
- * Route: '/newDealer'
- *
- * Response: One record inserted
+ * ROUTE: 'dealer/newDealer'
+ * RESPONSE: One record inserted
  */
-dealerRouter.post('/newDealer', async (req, res) => {
-	let dealer = req.body;	
-	let dealerController = new DealerController();
-	let msg = await dealerController.registerNewDealer(dealer);
-	res.status(200).send(msg);
+dealerRouter.post('/newDealer', verifyToken, verifyAdminRole, async (req, res) => {
+	try{
+		const dealer = req.body;	
+		const dealerController = new DealerController();
+		const msg = await dealerController.registerNewDealer(dealer);
+		res.status(200).send(msg);
+	}catch(err){
+		console.log(err);
+		res.status(500).json({msg: 'Server error'});
+	}
 });
 
 module.exports = dealerRouter;

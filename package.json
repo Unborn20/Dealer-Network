@@ -6,15 +6,21 @@
   "scripts": {
     "start": "node server.js",
     "test": "npm run test",
-    "migrations": "node Migrations/migration.js up"
+    "migrations": "node migration.js up",
+		"down-migrations": "node migration.js down 8"
   },
   "author": "Unborn20",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
     "mysql": "^2.18.1",
     "mysql-migrations": "^1.0.7"
   }

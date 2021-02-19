@@ -1,42 +1,53 @@
+'use strict';
 /**
  * DEPENDENCIES
  */
 const express = require('express');
 const ClientController = require('../Controllers/ClientController');
+const {verifyToken, verifyEmployeeRole} = require('../Middlewares/auth');
 const clientRouter = express.Router();
 
 /**
- * Route: '/'
- *
- * Reponse: Show all registred clients
+ * ROUTE: 'client/'
+ * RESPONSE: Show all registred clients
  */
-clientRouter.get('/', async (req, res) => {
-	let clients = await ClientController.showClients();
-	res.status(200).send(clients);
+clientRouter.get('/', verifyToken, async (req, res) => {
+	try{
+		const clients = await ClientController.showClients();
+		res.status(200).send(clients);
+	}catch(err){
+		res.status(500).json({msg: 'Server error'});
+	}
 });
 
 /**
- * Route: '/newClient'
- *
- * Response: Success: A new client Registered
+ * ROUTE: 'client/newClient'
+ * RESPONSE: Success: A new client Registered
  */
-clientRouter.post('/newClient', async (req, res) => {	
-	let client = req.body;
-	let clientController = new ClientController();
-	let msg = await clientController.registerInfoClient(client);
-	res.status(200).send(msg);
+clientRouter.post('/newClient', verifyToken, verifyEmployeeRole, async (req, res) => {
+	try{
+		const client = req.body;
+		const clientController = new ClientController();
+		const msg = await clientController.registerInfoClient(client);
+		res.status(200).send(msg);
+	}catch(err){
+		res.status(500).json({msg: 'Server error'});
+	}
 });
 
 /**
- * Route: '/newSale'
- *
- * Response: Success: Sale registered successfully
+ * ROUTE: 'client/newSale'
+ * RESPONSE: Success: Sale registered successfully
  */
-clientRouter.post('/newSale', async (req, res) => {
-	let sale = req.body;
-	let clientController = new ClientController();
-	let msg = await clientController.saleVehicle(sale);
-	res.status(200).send(msg);
+clientRouter.post('/newSale', verifyToken, verifyEmployeeRole, async (req, res) => {
+	try{
+		const sale = req.body;
+		const clientController = new ClientController();
+		const msg = await clientController.saleVehicle(sale);
+		res.status(200).send(msg);
+	}catch(err){
+		res.status(500).json({msg: 'Server error'});
+	}
 });
 
 module.exports = clientRouter;

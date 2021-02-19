@@ -1,31 +1,34 @@
 'use strict';
-const con = require('../Connection_DB/connection');
+const pool = require('../Connection_DB/connection');
+const consultIfExists = require('../Helpers/consultIfExists');
 
 class DealerDAO{
 
-	constructor(newDealer){
-		this.newDealer = newDealer;
-	}
+	constructor(){}
 
 	static async showDealers(){
-		const sql = `SELECT dealerName, phone, address FROM dealers`;
-		return new Promise((resolve, reject) => {
-			con.query(sql, (err, result) => {		
-				if (err) reject(err);	
-				if (result.length == 0) resolve({msg: 'No dealers records'});
-				resolve({result, totalRecords: result.length});
-			});			
-		});
+		try{
+			const sql = `SELECT dealerName, phone, address FROM dealers`;
+			const [dealers] = await pool.execute(sql);
+			return {dealers, toalRecord: dealers.length};	
+		}catch(err){
+			throw err;
+		}
 	}
 
-	async registerNewDealer(){
-		const sql = `INSERT INTO dealers SET ?`;
-		return new Promise((resolve, reject) => {
-			con.query(sql, this.newDealer, (err) => {
-				if (err) reject(err);
-				resolve({msg: 'Success: Dealer registered correctly'});
-			});
-		});
+	async registerNewDealer(dealer){
+		try{
+			const sql =`INSERT INTO dealers SET ?`;
+			const consultDealer = 'SELECT * FROM dealers WHERE phone = ? AND address = ?';
+			const dealerExists = await consultIfExists(consultDealer, [dealer.phone, dealer.address]);
+			if(!dealerExists){
+				await pool.query(sql, dealer);
+				return {msg: 'Success: Dealer registered succesfully'};				
+			}
+			return {msg: 'Warning: Dealer exists already'};
+		}catch(err){
+			throw err;
+		}
 	}
 
 }

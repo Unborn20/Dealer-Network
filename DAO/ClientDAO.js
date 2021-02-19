@@ -1,48 +1,35 @@
-const con = require('../Connection_DB/connection');
+'use strict';
+const pool = require('../Connection_DB/connection');
+const consultIfExists = require('../Helpers/consultIfExists');
 
 class ClientDAO{
 
-	constructor(newClient){
-		this.newClient = newClient;
-	}
+	constructor(){}
 
 	static async showAllClients(){
-		const sql = `SELECT name, phone, address FROM clients`;
-		return new Promise((resolve, reject) => {
-			con.query(sql, (err, result) => {
-				if (err) reject(err);
-				if (result.length == 0) resolve({msg: 'No clients records'});
-				resolve({result, totalRecords: result.length});
-			});
-		});
+		try{
+			const sql = `SELECT name, phone, address FROM clients`;
+			const [clients] = await pool.query(sql);
+			return {clients, totalRecords: clients.length};
+		}catch(err){
+			throw err;
+		}
 	}
 
-	async registerNewClient(){
-		const sql = `INSERT INTO clients SET ?`;
-		return new Promise((resolve, reject) => {
-				this.consultIfClientExists(this.newClient.phone)
-				.then(result => {
-					if(!result){
-						con.query(sql, this.newClient, (err) => {
-							if (err) reject(err);
-						});
-						resolve({msg: 'Success: Client registered correctly'});							
-					}
-					resolve({msg: 'Warning: This client exists already'});
-				}).catch(err => new Error(err));			
-		});	
-	}
-
-	async consultIfClientExists(phone){
-		const sql = `SELECT * FROM clients WHERE phone = ?`;
-		return new Promise((resolve, reject) => {
-			con.query(sql, phone, (err, result) => {
-				if (err) reject(err);
-				if (result.length) resolve(true);
-				resolve(false);
-			});
-		});
-	}
+	async registerNewClient(client){
+		try{
+			const sql = `INSERT INTO clients SET ?`;
+			const consultClient = 'SELECT * FROM clients WHERE phone = ?';
+			const clientExist = await consultIfExists(consultClient, [client.phone]);
+			if(!clientExist){
+				await pool.query(sql, client);
+				return {msg: 'Success: Client registered successfully'};
+			}
+			return {msg: 'Warning: Client exists already'};
+		}catch(err){
+			throw err;
+		}
+	}	
 
 }
 
