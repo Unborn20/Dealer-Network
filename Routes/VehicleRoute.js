@@ -14,11 +14,12 @@ const vehicleRouter = express.Router();
 vehicleRouter.post('/newVehicle', verifyToken, verifyEmployeeRole, async (req, res) => {
 	try{
 		const vehicle = req.body;
+		const userId = req.user.idusers;
 		const vehicleController = new VehicleController();
-		const msg = await vehicleController.registerNewVehicle(vehicle);
-	res.status(200).send(msg);
+		const msg = await vehicleController.registerNewVehicle({...vehicle, userId});
+		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).send({msg: 'Error 500: Server error'});
 	}
 });
 
@@ -31,7 +32,7 @@ vehicleRouter.get('/recentVehicles', verifyToken, verifyEmployeeRole, async (req
 		const mostRecent = await VehicleController.showMostRecentVehicle();
 		res.status(200).send(mostRecent);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).send({msg: 'Error 500: Server error'});	
 	}
 });
 
@@ -46,7 +47,7 @@ vehicleRouter.get('/showByAbovePrice/:limit', verifyToken, verifyEmployeeRole, a
 		const vehiclesByAbovePrice = await vehicleController.showVehiclesByAbovePrice(limit);
 		res.status(200).send(vehiclesByAbovePrice);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).send({msg: 'Error 500: Server error'});
 	}
 });
 
@@ -59,7 +60,7 @@ vehicleRouter.get('/cheapestVehicle', verifyToken, verifyEmployeeRole, async (re
 		const cheapestVehicle = await VehicleController.showCheaperVehicle();
 		res.status(200).send(cheapestVehicle);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).json({msg: 'Error 500: Server error'});
 	}
 });
 
@@ -74,7 +75,7 @@ vehicleRouter.get('/mostSaleVehicle/:dealer', verifyToken, verifyEmployeeRole, a
 		const mostSaleVehicle = await vehicleController.showMostSaleVehicle(dealer);
 		res.status(200).send(mostSaleVehicle);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).json({msg: 'Error 500: Server error'});
 	}
 });
 

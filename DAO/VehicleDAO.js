@@ -9,7 +9,6 @@ class VehicleDAO{
 		try{
 			const sql = `INSERT INTO vehicles SET ?`;
 			await pool.query(sql, vehicle);
-			return {msg: 'Vehicle registered successfully'};
 		}catch(err){
 			throw err;
 		}

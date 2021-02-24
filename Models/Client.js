@@ -4,6 +4,7 @@ class Client{
 	name = '';
 	phone = '';
 	address = '';
+	userClientId = 0;
 
 	constructor(){}
 
@@ -29,6 +30,14 @@ class Client{
 
 	set address(address){
 		this.address = address;
+	}
+	
+	get userClientId(){
+		return this.userClientId;
+	}
+
+	set userClientId(userClientId){
+		this.userClientId = userClientId;
 	}
 
 }

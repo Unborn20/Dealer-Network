@@ -5,6 +5,7 @@ class Vehicle{
 	model = 0;
 	price = 0.0;
 	dealerCode = 0; 
+	userVehicleId = 0;
 
 	constructor(){}
 
@@ -38,6 +39,14 @@ class Vehicle{
 
 	set dealerCode(dealerCode){
 		this.dealerCode = dealerCode;
+	}
+
+	get userVehicleId(){
+		return this.userVehicleId;
+	}
+
+	set userVehicleId(userVehicleId){
+		this.userVehicleId = userVehicleId;
 	}
 
 }

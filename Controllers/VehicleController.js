@@ -8,32 +8,34 @@ class VehicleController{
 
 	/** Return a message */
 	async registerNewVehicle(vehicle){
-		let vehicleModel = new Vehicle();
+		const vehicleModel = new Vehicle();
 		vehicleModel.brand = vehicle.brand;
 		vehicleModel.model = Number(vehicle.model);
 		vehicleModel.price = Number(vehicle.price).toFixed(2);
 		vehicleModel.dealerCode = Number(vehicle.dealerCode).toFixed(0);
-		let vehicleDAO = new VehicleDAO();
-		return await vehicleDAO.registerNewVehicle(vehicleModel);
+		vehicleModel.userVehicleId = Number(vehicle.userId);
+		const vehicleDAO = new VehicleDAO();
+		await vehicleDAO.registerNewVehicle(vehicleModel);
+		return {msg: 'Success: Vehicle saved successfully'};
 	}
   
 	static async showMostRecentVehicle(){
-		let mostRecentVehicles = await VehicleDAO.showMostRecentVehicles();
+		const mostRecentVehicles = await VehicleDAO.showMostRecentVehicles();
 		return mostRecentVehicles;
 	} 
 
 	async showVehiclesByAbovePrice(limit){
-		let vehicleDAO = new VehicleDAO();
+		const vehicleDAO = new VehicleDAO();
 		return await vehicleDAO.showVehiclesByAbovePrice(limit);
 	}
 
 	static async showCheaperVehicle(){
-		let cheapestVehicle = await VehicleDAO.showCheaperVehicle();
+		const cheapestVehicle = await VehicleDAO.showCheaperVehicle();
 		return cheapestVehicle;	
 	}
 
 	async showMostSaleVehicle(dealer){
-		let vehicleDAO = new VehicleDAO();
+		const vehicleDAO = new VehicleDAO();
 		return await vehicleDAO.showMostSaleVehicleByDealer(dealer);
 	}
 

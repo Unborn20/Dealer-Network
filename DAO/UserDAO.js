@@ -13,10 +13,10 @@ class UserDAO{
 			const consultUser = 'SELECT * FROM users WHERE email = ?';
 			const userExists = await consultIfExists(consultUser, user.email);
 			if (userExists){
-				return {msg: 'Warning: This user exists already'};
+				return true;
 			}
 			await pool.query(sql, user);
-			return {msg: 'User registered successfully'};
+			return false;
 		}catch(err){
 			throw err;
 		}
@@ -25,8 +25,8 @@ class UserDAO{
 	async login(crendentials){
 		try{
 			const {email, password} = crendentials;
-			const sql = 'SELECT userName, email, roleId FROM users WHERE email = ? AND userPassword = ?';
-			const [user] = await pool.query(sql, [email, password]);
+			const sql = 'SELECT idusers, userName, email, roleId FROM users WHERE email = ?';			
+			const [user] = await pool.query(sql, [email]);
 			if(!user.length){
 				return false;
 			}
@@ -46,12 +46,12 @@ class UserDAO{
 		}
 	}
 
-	async changeToAdminRole(user){
+	async changeRole(user){
 		try{
-			const {idusers, userName, roleId} = user;
+			const {idusers, userName: name, roleId} = user;
 			const sql = 'UPDATE users SET roleId = ? WHERE idusers = ?';
 			await pool.query(sql, [roleId, idusers]);
-			return {msg: `Success: ${userName} now is Admin`};
+			return name;
 		}catch(err){
 			throw err;
 		}

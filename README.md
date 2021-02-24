@@ -1,7 +1,7 @@
 # Dealer-Network
 It is a project to manage a Dealer Network
 
-## Download all the dependencies
+## Download all dependencies
 
 ```
 npm i
@@ -14,7 +14,7 @@ npm i
 2. Run  migrations.
 
 ```
-npm run migrations	
+npm run up-migrations	
 ```
 
 If you want down the migrations you can use:

@@ -7,17 +7,22 @@ class DealerController{
 	constructor(){}
 
 	static async showDealers(){	
-		let dealers = await DealerDAO.showDealers();
+		const dealers = await DealerDAO.showDealers();
 		return dealers;
 	} 
 
 	async registerNewDealer(dealer){
-		let dealerModel = new Dealer();
+		const dealerModel = new Dealer();
 		dealerModel.dealerName = dealer.name;
 		dealerModel.phone = dealer.phone;
 		dealerModel.address = dealer.address;
-		let dealerDAO = new DealerDAO();		
-		return await dealerDAO.registerNewDealer(dealerModel);		
+		dealerModel.userDealerId = Number(dealer.userId);
+		const dealerDAO = new DealerDAO();		
+		const dealerExists = await dealerDAO.registerNewDealer(dealerModel);		
+		if (!dealerExists){
+			return {msg: 'Success: Dealer registered succesfully'};
+		}
+		return {msg: 'Warning: This dealer does exists already'};
 	}
 
 }

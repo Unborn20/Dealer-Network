@@ -23,9 +23,9 @@ class ClientDAO{
 			const clientExist = await consultIfExists(consultClient, [client.phone]);
 			if(!clientExist){
 				await pool.query(sql, client);
-				return {msg: 'Success: Client registered successfully'};
+				return true;
 			}
-			return {msg: 'Warning: Client exists already'};
+			return false;
 		}catch(err){
 			throw err;
 		}

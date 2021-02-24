@@ -6,10 +6,9 @@ module.exports = {
 		  		" `price` double NOT NULL,"+
 		  		" `dealerCode` int(11) NOT NULL,"+
 	 	 			" `userVehicleId` int(11) NOT NULL,"+
-				  " PRIMARY KEY (`idvehicles`),"+
-	  			" KEY `fk_vehicles_1_idx` (`dealerCode`),"+
-  				" CONSTRAINT `dealerCode` FOREIGN KEY (`dealerCode`)"+
+				  " PRIMARY KEY (`idvehicles`),"+ 
+  				" CONSTRAINT `fk_dealerCode` FOREIGN KEY (`dealerCode`)"+
 					"	REFERENCES `dealers` (`nit`) ON DELETE NO ACTION ON UPDATE NO ACTION"+
-					") ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8",
+					") ENGINE=InnoDB CHARSET=utf8",
     "down": "DROP TABLE vehicles"
 }

@@ -23,9 +23,9 @@ class DealerDAO{
 			const dealerExists = await consultIfExists(consultDealer, [dealer.phone, dealer.address]);
 			if(!dealerExists){
 				await pool.query(sql, dealer);
-				return {msg: 'Success: Dealer registered succesfully'};				
+				return false;
 			}
-			return {msg: 'Warning: Dealer exists already'};
+			return true;
 		}catch(err){
 			throw err;
 		}

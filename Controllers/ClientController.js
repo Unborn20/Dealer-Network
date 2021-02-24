@@ -11,22 +11,28 @@ class ClientController{
 	constructor(){}
 
 	static async showClients(){
-		let clients = await ClientDAO.showAllClients();
+		const clients = await ClientDAO.showAllClients();
 		return clients;
 	}
 
 	async registerInfoClient(client){
-		let clientModel = new Client();
+		const clientModel = new Client();
 		clientModel.name = client.name;
 		clientModel.phone = client.phone;
 		clientModel.address = client.address;
-		let clientDAO = new ClientDAO();
-		return await clientDAO.registerNewClient(clientModel);
+		clientModel.userClientId = Number(client.userId);
+		const clientDAO = new ClientDAO();
+		const clienteExists = await clientDAO.registerNewClient(clientModel);
+		if (clienteExists){
+			return {msg: 'Success: Client registered successfully'};
+		}
+		return {msg: 'Warning: This client does exists already'};
 	}
 
 	async saleVehicle(sale){
-		let saleDAO = new SaleDAO();
-		return await saleDAO.saleVehicle(sale);
+		const saleDAO = new SaleDAO();
+		await saleDAO.saleVehicle(sale);
+		return {msg: 'Success: Sale registered successfully'};
 	}
 
 }

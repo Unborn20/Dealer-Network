@@ -9,7 +9,6 @@ class SaleDAO{
 		try{
 			const sql = `INSERT INTO sales SET ?`;
 			await pool.query(sql, sale);
-			return {msg: 'Success: Sale complete succesfully'};
 		}catch(err){
 			throw err;
 		}

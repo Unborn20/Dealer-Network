@@ -9,14 +9,14 @@ const clientRouter = express.Router();
 
 /**
  * ROUTE: 'client/'
- * RESPONSE: Show all registred clients
+ * RESPONSE: Show all registered clients
  */
 clientRouter.get('/', verifyToken, async (req, res) => {
 	try{
 		const clients = await ClientController.showClients();
 		res.status(200).send(clients);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).json({msg: 'Error 500: Server error'});
 	}
 });
 
@@ -27,11 +27,12 @@ clientRouter.get('/', verifyToken, async (req, res) => {
 clientRouter.post('/newClient', verifyToken, verifyEmployeeRole, async (req, res) => {
 	try{
 		const client = req.body;
+		const userId = req.user.idusers;
 		const clientController = new ClientController();
-		const msg = await clientController.registerInfoClient(client);
+		const msg = await clientController.registerInfoClient({...client, userId});
 		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).json({msg: 'Error 500: Server error'});
 	}
 });
 
@@ -46,7 +47,7 @@ clientRouter.post('/newSale', verifyToken, verifyEmployeeRole, async (req, res) 
 		const msg = await clientController.saleVehicle(sale);
 		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).json({msg: 'Error 500: Server error'});
 	}
 });
 

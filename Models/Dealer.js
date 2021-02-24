@@ -4,6 +4,7 @@ class Dealer{
 	dealerName = '';
 	phone = '';
 	address = '';
+	userDealerId = 0;
 
 	constructor(){}
 
@@ -29,6 +30,14 @@ class Dealer{
 
 	set address(address){
 		this.address = address;
+	}
+
+	get userDealerId(){
+		return this.userDealerId;
+	}
+
+	set userDealerId(userDealerId){
+		 this.userDealerId = userDealerId;
 	}
 
 }

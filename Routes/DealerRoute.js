@@ -16,7 +16,7 @@ dealerRouter.get('/', verifyToken, verifyAdminRole, async (req, res) => {
 		const dealers = await DealerController.showDealers();
 		res.status(200).send(dealers);
 	}catch(err){
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).json({msg: 'Error 500: Server error'});
 	}	
 });
 
@@ -27,12 +27,12 @@ dealerRouter.get('/', verifyToken, verifyAdminRole, async (req, res) => {
 dealerRouter.post('/newDealer', verifyToken, verifyAdminRole, async (req, res) => {
 	try{
 		const dealer = req.body;	
+		const userId = req.user.idusers;
 		const dealerController = new DealerController();
-		const msg = await dealerController.registerNewDealer(dealer);
+		const msg = await dealerController.registerNewDealer({...dealer, userId});
 		res.status(200).send(msg);
 	}catch(err){
-		console.log(err);
-		res.status(500).json({msg: 'Server error'});
+		res.status(500).json({msg: 'Error 500: Server error'});
 	}
 });
 

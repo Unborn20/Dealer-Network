@@ -18,7 +18,7 @@ userRouter.post('/saveUser', async (req, res) => {
 		const msg = await userController.saveNewUser(user);
 		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).send(err);
+		res.status(500).send({msg: 'Error 500: Server error'});
 	}
 });
 
@@ -30,10 +30,10 @@ userRouter.post('/login', async (req, res) => {
 	try{
 		const userController = new UserController();
 		const credentials = req.body;
-		const user = await userController.login(credentials);
-		res.status(200).send(user);
+		const msg = await userController.login(credentials);
+		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).send(err);
+		res.status(500).send({msg: 'Error 500: Server error'});
 	}
 });
 
@@ -45,10 +45,10 @@ userRouter.put('/changeRole/:idUser', verifyToken, verifyAdminRole, async (req, 
 	try{
 		const userController = new UserController();
 		const idUser = Number(req.params['idUser']);
-		const msg = await userController.changeRole(idUser);
+		const msg = await userController.changeToAdminRole(idUser)(idUser);
 		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).send(err);
+		res.status(500).send({msg: 'Error 500: Server error'});
 	}
 });
 

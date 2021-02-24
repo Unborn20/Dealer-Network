@@ -8,13 +8,17 @@ class UserController{
 
 	constructor(){}
 
-	async saveNewUser(user){
+	async saveNewUser(user){	
 		const userModel = new User();
 		const userDAO = new UserDAO();
 		userModel.userName = user.name;
 		userModel.email = user.email;
-		userModel.userPassword = user.password;
-		return await userDAO.saveUser(userModel);
+		userModel.userPassword = await bcrypt.hash(user.password, 10);
+		const userExists = await userDAO.saveUser(userModel);
+		if (userExists){
+			return {msg: 'Warning: This user does exists already'};			
+		}	
+		return {msg: 'Success: User registered successfully'};
 	}
 
 	async login(credentials){
@@ -29,13 +33,14 @@ class UserController{
 		return {msg: `Welcome ${user.userName}`, token};
 	}
 
-	async changeRole(idUser){
+	async changeToAdminRole(idUser){
 		const userDAO = new UserDAO();
 		const user = await userDAO.findUser(idUser);
 		const {userName: name, roleId} = user;
 		if (roleId == 2){
 			user.roleId = 1;
-			return await userDAO.changeToAdminRole(user);
+			const newAdminName = await userDAO.changeRole(user);
+			return newAdminName;
 		}
 		return {msg: `Warning: ${name} is Admin already`};
 	}
