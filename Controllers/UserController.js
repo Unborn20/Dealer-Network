@@ -1,8 +1,8 @@
 'use strict';
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../Models/User');
-const UserDAO = require('../DAO/UserDAO');
+const UserDAO = require('../DAO/UserDAO'); 
 
 class UserController{
 
@@ -21,11 +21,15 @@ class UserController{
 		return {msg: 'Success: User registered successfully'};
 	}
 
-	async login(credentials){
+	async login(email, password){
 		const userDAO = new UserDAO();
-		const user = await userDAO.login(credentials);
+		const user = await userDAO.login(email);
 		if(!user){
-			return {msg: 'This user doesn\'t exists'};
+			return {msg: 'This email is not registered'};
+		}
+		const passwordMatch = await bcrypt.compare(password, user.userPassword);		
+		if(!passwordMatch){
+			return {msg: 'Password doesn\'t match'};
 		}
 		const seed = process.env.SEED;
 		const expiresIn = process.env.EXPIRES_TOKEN_DATE;

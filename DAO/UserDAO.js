@@ -1,6 +1,5 @@
 'use strict';
 const pool = require('../Connection_DB/connection');
-const bcrypt = require('bcrypt');
 const consultIfExists = require('../Helpers/consultIfExists');
 
 class UserDAO{
@@ -9,23 +8,22 @@ class UserDAO{
 
 	async saveUser(user){
 		try{
-			const sql = 'INSERT INTO users SET ?';
+			const insertUser = 'INSERT INTO users SET ?';
 			const consultUser = 'SELECT * FROM users WHERE email = ?';
 			const userExists = await consultIfExists(consultUser, user.email);
 			if (userExists){
 				return true;
 			}
-			await pool.query(sql, user);
+			await pool.query(insertUser, user);
 			return false;
 		}catch(err){
 			throw err;
 		}
 	}
 
-	async login(crendentials){
-		try{
-			const {email, password} = crendentials;
-			const sql = 'SELECT idusers, userName, email, roleId FROM users WHERE email = ?';			
+	async login(email){
+		try{		
+			const sql = 'SELECT userName, email, userPassword, roleId FROM users WHERE email = ?';			
 			const [user] = await pool.query(sql, [email]);
 			if(!user.length){
 				return false;

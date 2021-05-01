@@ -18,7 +18,7 @@ userRouter.post('/saveUser', async (req, res) => {
 		const msg = await userController.saveNewUser(user);
 		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).send({msg: 'Error 500: Server error'});
+		res.status(500).send({msg: 'Error 500: Server error'});		
 	}
 });
 
@@ -29,11 +29,11 @@ userRouter.post('/saveUser', async (req, res) => {
 userRouter.post('/login', async (req, res) => {
 	try{
 		const userController = new UserController();
-		const credentials = req.body;
-		const msg = await userController.login(credentials);
+		const {email, password} = req.body;
+		const msg = await userController.login(email, password);
 		res.status(200).send(msg);
 	}catch(err){
-		res.status(500).send({msg: 'Error 500: Server error'});
+		res.status(500).send({msg: 'Error 500: Server error'});		
 	}
 });
 

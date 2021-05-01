@@ -8,12 +8,13 @@
     "test": "npm run test",
     "up-migrations": "node migration.js up",
     "down-migrations": "node migration.js down 13",
-		"refresh-migrations": "node migration.js refresh"
+    "refresh-migrations": "node migration.js refresh",
+    "watch": "nodemon server.js"
   },
   "author": "Unborn20",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "mysql": "^2.18.1",
-    "mysql-migrations": "^1.0.7"
+    "mysql-migrations": "^1.0.7",
+    "nodemon": "^2.0.7"
   }
 }
